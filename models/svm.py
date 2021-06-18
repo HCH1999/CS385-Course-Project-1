@@ -1,11 +1,13 @@
 import os
+import sys
 import numpy as np
 import torch
 import torch.nn as nn
 from scipy.io import loadmat
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import AverageMeter, accuracy, Logger
-from models.svm import SVM_OVR
+from utils.averager import AverageMeter
+from utils.accuracy import accuracy
+from utils.logger import Logger
 from tensorboardX import SummaryWriter
 
 
@@ -20,7 +22,7 @@ class SVM_OVR(nn.Module):
         train_set = loadmat(self.train_path)
         train_X = train_set['X']
         train_X = train_X.transpose((3, 0, 1, 2))
-        train_X = train_X[0:100, :, :, :]
+        train_X = train_X[0:500, :, :, :]
         train_X = train_X/float(255)
         train_X_mean = np.mean(train_X, axis=(0, 1, 2), keepdims=True)
         train_X_std = np.std(train_X, axis=(0, 1, 2), keepdims=True)
@@ -32,10 +34,9 @@ class SVM_OVR(nn.Module):
         # self.x = self.x.cuda()
 
         #self.alpha = torch.randn(self.x.shape[0], self.cls, requires_grad=True).cuda()
-        self.alpha_1 = nn.Linear(self.x.shape[0], 64)
-        self.alpha_2 = nn.Linear(64, 64)
-        self.alpha_3 = nn.Linear(64, 64)
+        self.alpha = nn.Linear(self.x.shape[0], 64)
         self.classifier = nn.Linear(64, self.cls_num)
+        self.softmax = nn.Softmax()
         self.norm = nn.BatchNorm1d(64)
 
         
@@ -53,13 +54,9 @@ class SVM_OVR(nn.Module):
         F = x.shape[1]
         kernel = torch.matmul(x, self.x.T)/float(F)
         # print("kernel:{}".format(kernel[0, 0]))
-        res = self.alpha_1(kernel)
-        # print("1:{}".format(res[0, 0]))
-        res = self.alpha_2(res)
-        # print("2:{}".format(res[0, 0]))
-        res = self.alpha_3(res)
-        # print("3:{}".format(res[0, 0]))
+        res = self.alpha(kernel)
         res = self.norm(res)
+        res = self.softmax(res)
         res = self.classifier(res)
         return res
 

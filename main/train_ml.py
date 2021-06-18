@@ -64,6 +64,8 @@ def main():
     # Prepare the model & loss & optimizer
     if args.arch == 'logistic' or args.arch == 'ridge' or args.arch == 'lasso':
         model = LogisticRegressionReLU()
+    elif args.arch == 'wide-spec':
+        model = WideLogisticRegressionReLU(hidden_layer=66)
     elif args.arch == 'kernel-linear':
         args.lr = 0.001
         args.schedule = [25, 45]
@@ -230,8 +232,8 @@ def validate(val_loader, model, criterion):
         reg_loss = 0.0
         if args.arch == 'lasso':
             for param in model.parameters():
-                reg_loss += torch.sum(abs(param))
-            reg_loss = reg_loss * args.reg
+                reg_loss += torch.sum(torch.abs(param))
+            reg_loss = reg_loss * args.reg * 0.1
         elif args.arch == 'ridge':
             for param in model.parameters():
                 reg_loss += torch.sum(param**2)

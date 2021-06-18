@@ -8,7 +8,9 @@ import torch.nn as nn
 from scipy.io import loadmat
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import AverageMeter, accuracy, Logger
+from utils.averager import AverageMeter
+from utils.accuracy import accuracy
+from utils.logger import Logger
 from models.svm import SVM_OVR
 from tensorboardX import SummaryWriter
 INF = 100
@@ -30,7 +32,7 @@ def svm_loss(cls_num, x, y):
     batchsize = x.shape[0]
     # y-mask: [N, 10]
     y = y.long()
-    mask = (-0.1) * torch.ones((batchsize, cls_num), requires_grad=False).cuda()
+    mask = torch.zeros((batchsize, cls_num), requires_grad=False).cuda()
     for id in range(y.shape[0]):
         mask[id, y[id, 0]] = 1
     x = x * mask
