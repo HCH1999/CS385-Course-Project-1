@@ -1,0 +1,17 @@
+==>Arguments:
+arch:alexnet
+checkpoint:./checkpoints/
+datapath:./data/
+epochs:50
+evaluate:False
+gamma:0.1
+gpu_id:0
+lr:0.1
+momentum:0.9
+schedule:[20, 40]
+train_batchsize:64
+val_batchsize:16
+weight_decay:0.0001
+==>Training log:
+Learning Rate	Train Loss	Valid Loss	Train Acc	Valid Acc	
+0.001000	2.251818	2.225291	18.850075	19.587431	

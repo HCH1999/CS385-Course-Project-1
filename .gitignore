@@ -1,2 +1,5 @@
 *.mat
 *.pth.tar
+*tensorboardX*
+*.jpg
+events*
