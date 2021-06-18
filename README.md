@@ -1,8 +1,11 @@
 # CS385-Course-Project-1
-Chumeng Liang  518030910015
 
-## SVM on Multiclassification Problem
-Investigate the different performance of one-versus-rest (OVR) and one-versus-one (OVO). Visualize the feature space to tell why.
+## Implemented models
+Regression Models: Logistic Regression, LASSO Regression, Ridge Regression.
+
+Kernel-based Models: Kernel Regression, SVM.
+
+DNNs: ResNet18, ResNet50, VGG16, VGG19.
 
 ## Training logs
 resnet18 is now on tmux 114(finished)
