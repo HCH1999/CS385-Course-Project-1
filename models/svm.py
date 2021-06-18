@@ -20,6 +20,7 @@ class SVM_OVR(nn.Module):
         train_set = loadmat(self.train_path)
         train_X = train_set['X']
         train_X = train_X.transpose((3, 0, 1, 2))
+        train_X = train_X[0:100, :, :, :]
         train_X = train_X/float(255)
         train_X_mean = np.mean(train_X, axis=(0, 1, 2), keepdims=True)
         train_X_std = np.std(train_X, axis=(0, 1, 2), keepdims=True)

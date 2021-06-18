@@ -17,7 +17,7 @@ from utils.accuracy import accuracy
 from utils.logger import Logger
 from utils.bar import Bar
 from models.resnet import ResNet18, ResNet50
-from models.vgg import VGG16, VGG19
+from models.vgg import VGG16, VGG19, VGG16_V1, VGG16_V2
 from models.alexnet import AlexNet
 
 parser = argparse.ArgumentParser()
@@ -83,6 +83,16 @@ def main():
         args.weight_decay = 1e-5
         args.schedule = [40, ]
         model = VGG19()
+    elif args.arch == 'vgg16_v1':
+        args.lr = 0.01
+        args.weight_decay = 1e-5
+        args.schedule = [40, ]
+        model = VGG16_V1()
+    elif args.arch == 'vgg16_v2':
+        args.lr = 0.01
+        args.weight_decay = 1e-5
+        args.schedule = [40, ]
+        model = VGG16_V2()
     else:
         raise NotImplementedError("Arch {} is not implemented.".format(args.arch))
     model = nn.DataParallel(model).cuda()

@@ -10,3 +10,9 @@ resnet50 is now on tmux 115
 alexnet is now on tmux 116
 vgg16 is now on tmux 123
 vgg19 is now on tmux 126
+
+deep is now on tmux 114
+ridge is now on tmux 115
+lasso is now on tmux 116
+wide is now on tmux 123
+vgg19 is now on tmux 126

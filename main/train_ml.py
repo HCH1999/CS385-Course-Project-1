@@ -28,8 +28,8 @@ parser.add_argument('--momentum', default=0.9, type=float)
 parser.add_argument('--checkpoint', default='./checkpoints/', type=str)
 parser.add_argument('--evaluate', action='store_true')
 parser.add_argument('--gpu-id', default='0', type=str)
-parser.add_argument('--epochs', default=200, type=int)
-parser.add_argument('--schedule', type=int, nargs='+', default=[70, 120, 160])
+parser.add_argument('--epochs', default=100, type=int)
+parser.add_argument('--schedule', type=int, nargs='+', default=[70, ])
 parser.add_argument('--gamma', type=float, default=0.1)
 parser.add_argument('--reg', type=float, default=0.0001)
 
@@ -63,9 +63,22 @@ def main():
 
     # Prepare the model & loss & optimizer
     if args.arch == 'logistic' or args.arch == 'ridge' or args.arch == 'lasso':
-        model = LogisticRegression()
-    elif args.arch == 'kernel':
-        model = KernelRegression()
+        model = LogisticRegressionReLU()
+    elif args.arch == 'kernel-linear':
+        args.lr = 0.001
+        args.schedule = [25, 45]
+        model = KernelRegression(kernel='linear')
+    elif args.arch == 'kernel-rbf':
+        args.lr = 0.001
+        args.schedule = [25, 45]
+        model = KernelRegression(kernel='rbf')
+    elif args.arch == 'deep':
+        model = DeepLogisticRegressionReLU()
+    elif args.arch == 'wide':
+        model = WideLogisticRegressionReLU()
+    elif args.arch == 'plus':
+        args.epochs = 200
+        model = DeepLogisticRegressionReLUPLUS()
     else:
         raise NotImplementedError("Arch {} is not implemented.".format(args.arch))
     model = nn.DataParallel(model).cuda()
@@ -141,6 +154,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
     end = time.time()
     for i, (image, target) in enumerate(train_loader):
+        # print(image.shape)
         # measure data loading time
         data_time.update(time.time() - end)
 
