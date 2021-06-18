@@ -5,14 +5,20 @@ Chumeng Liang  518030910015
 Investigate the different performance of one-versus-rest (OVR) and one-versus-one (OVO). Visualize the feature space to tell why.
 
 ## Training logs
-resnet18 is now on tmux 114
-resnet50 is now on tmux 115
-alexnet is now on tmux 116
-vgg16 is now on tmux 123
-vgg19 is now on tmux 126
+resnet18 is now on tmux 114(finished)
 
-deep is now on tmux 114
-ridge is now on tmux 115
-lasso is now on tmux 116
-wide is now on tmux 123
-vgg19 is now on tmux 126
+resnet50 is now on tmux 115(finished)
+
+vgg16 is now on tmux 123(finished)
+
+vgg19 is now on tmux 126(finished)
+
+deep is now on tmux 114(finished)
+
+ridge is now on tmux 115(finished)
+
+lasso is now on tmux 116(finished)
+
+SVM is now on tmux 123(finished)
+
+Kernel is now on tmux 126(finished)
